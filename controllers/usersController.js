@@ -25,11 +25,13 @@ router.get('/:id', async (req, res, next) => {
 		const user = await User.findById(req.params.id);
 		return res.json(user);
 	} catch (error) {
-		res.status(400);
+		res.status(404);
 		next(error);
 	}
 });
 
+// localhost:8000/api/users
+// POST: Create route
 router.post('/', async (req, res, next) => {
 	try {
 		const newUser = await User.create(req.body);
@@ -37,6 +39,52 @@ router.post('/', async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
+});
+
+// localhost:8000/api/users/:id
+// PUT: Update route
+router.put('/:id', (req, res) => {
+	User.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true, overwrite: true },
+		(err, user) => {
+			if (err) {
+				return res.Status(400).json(err);
+			} else {
+				return res.json(user);
+			}
+		}
+	);
+});
+
+// localhost:8000/api/users/:id
+// PATCH: Update route
+router.patch('/:id', (req, res) => {
+	User.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true },
+		(err, user) => {
+			if (err) {
+				return res.sendStatus(400).json(err);
+			} else {
+				return res.json(user);
+			}
+		}
+	);
+});
+
+// localhost:8000/api/users/:id
+// DELETE: Delete route
+router.delete('/:id', (req, res) => {
+	User.findByIdAndDelete(req.params.id, (err, user) => {
+		if (err) {
+			return res.status(400).json(err);
+		} else {
+			return res.sendStatus(204);
+		}
+	});
 });
 
 module.exports = router;

@@ -14,6 +14,7 @@ const Bookmark = require('../models/Bookmark');
 router.get('/', (req, res, next) => {
 	// Get all the bookmarks from DB
 	Bookmark.find({})
+		.populate('owner')
 		.then((bookmarks) => res.json(bookmarks))
 		.catch(next);
 });
@@ -36,7 +37,7 @@ router.get('/', (req, res, next) => {
 // GET: Show route
 router.get('/:id', async (req, res, next) => {
 	try {
-		const bookmark = await Bookmark.findById(req.params.id);
+		const bookmark = await Bookmark.findById(req.params.id).populate('owner');
 		return res.json(bookmark);
 	} catch (error) {
 		res.status(400);
