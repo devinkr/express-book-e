@@ -1,15 +1,31 @@
-// import Bookmark model
+// import Models
 const Bookmark = require('../models/Bookmark');
+const Users = require('../models/User');
 
 // Import seed data
 const bookmarks = require('./seeds.json');
 
-Bookmark.insertMany(bookmarks)
+const users = [
+	{
+		name: 'Esin Saribudak',
+		email: 'esin@cats.com',
+	},
+	{
+		name: 'Zoe Peterson',
+		email: 'zoe@cats.com',
+	},
+	{
+		name: 'Tom Kolsrud',
+		email: 'tom@cats.com',
+	},
+];
+
+/* Bookmark.insertMany(bookmarks)
 	.then((res) => {
 		console.log(res);
 	})
 	.catch((err) => console.log(err))
-	.finally(() => process.exit());
+	.finally(() => process.exit()); */
 
 // can also use callback format
 /* Vampire.insertMany(seedData, (err, vampires) => {
@@ -19,3 +35,10 @@ Bookmark.insertMany(bookmarks)
 		console.log('added provided vampire data', vampires);
 		mongoose.connection.close();
 	}); */
+
+/* Users.insertMany(users)
+	.then((res) => {
+		console.log(res);
+	})
+	.catch((err) => console.log(err))
+	.finally(() => process.exit()); */

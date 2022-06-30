@@ -36,15 +36,11 @@ router.get('/', (req, res, next) => {
 // GET: Show route
 router.get('/:id', async (req, res, next) => {
 	try {
-		Bookmark.findById(req.params.id, (err, bookmark) => {
-			if (bookmark) {
-				return res.json(bookmark);
-			} else {
-				return res.sendStatus(404);
-			}
-		});
-	} catch (err) {
-		next(err);
+		const bookmark = await Bookmark.findById(req.params.id);
+		return res.json(bookmark);
+	} catch (error) {
+		res.status(400);
+		next(error);
 	}
 });
 
@@ -69,7 +65,7 @@ router.put('/:id', (req, res) => {
 		{ new: true, overwrite: true },
 		(err, bookmark) => {
 			if (err) {
-				return res.sendStatus(404);
+				return res.Status(400).json(err);
 			} else {
 				return res.json(bookmark);
 			}
@@ -86,7 +82,7 @@ router.patch('/:id', (req, res) => {
 		{ new: true },
 		(err, bookmark) => {
 			if (err) {
-				return res.sendStatus(404);
+				return res.sendStatus(400).json(err);
 			} else {
 				return res.json(bookmark);
 			}
@@ -94,6 +90,17 @@ router.patch('/:id', (req, res) => {
 	);
 });
 
+// localhost:8000/api/bookmarks/:id
+// DELETE: Delete route
+router.delete('/:id', (req, res) => {
+	Bookmark.findByIdAndDelete(req.params.id, (err, bookmark) => {
+		if (err) {
+			return res.status(400).json(err);
+		} else {
+			return res.sendStatus(204);
+		}
+	});
+});
 
 // Export this router object so that it is accessible when we require the file elsewhere
 module.exports = router;

@@ -32,8 +32,17 @@ app.get('/', (req, res) => {
 const bookmarksController = require('./controllers/bookmarksController');
 app.use('/api/bookmarks/', bookmarksController);
 
+const usersController = require('./controllers/usersController');
+app.use('/api/users/', usersController);
+
 /* END CONTROLLERS HERE */
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+	const statusCode = res.statusCode || 500;
+	const message = err.message || 'Internal Server Error';
+	res.status(statusCode).send(message);
+});
 //=============================================================================
 // START SERVER
 //=============================================================================
