@@ -48,5 +48,52 @@ router.get('/:id', async (req, res, next) => {
 	}
 });
 
+// localhost:8000/api/bookmarks
+// POST: Create route
+router.post('/', (req, res, next) => {
+	Bookmark.create(req.body, (err, bookmark) => {
+		if (err) {
+			return res.sendStatus(400);
+		} else {
+			return res.status(201).json(bookmark);
+		}
+	});
+});
+
+// localhost:8000/api/bookmarks/:id
+// PUT: Update route
+router.put('/:id', (req, res) => {
+	Bookmark.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true, overwrite: true },
+		(err, bookmark) => {
+			if (err) {
+				return res.sendStatus(404);
+			} else {
+				return res.json(bookmark);
+			}
+		}
+	);
+});
+
+// localhost:8000/api/bookmarks/:id
+// PATCH: Update route
+router.patch('/:id', (req, res) => {
+	Bookmark.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true },
+		(err, bookmark) => {
+			if (err) {
+				return res.sendStatus(404);
+			} else {
+				return res.json(bookmark);
+			}
+		}
+	);
+});
+
+
 // Export this router object so that it is accessible when we require the file elsewhere
 module.exports = router;
