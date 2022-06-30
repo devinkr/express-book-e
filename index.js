@@ -29,6 +29,9 @@ app.get('/', (req, res) => {
 
 /* START CONTROLLERS HERE */
 
+const bookmarksController = require('./controllers/bookmarksController');
+app.use('/api/bookmarks/', bookmarksController);
+
 /* END CONTROLLERS HERE */
 
 //=============================================================================
